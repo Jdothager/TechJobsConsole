@@ -59,30 +59,21 @@ namespace TechJobsConsole
                     string searchTerm = Console.ReadLine();
 
                     // make value case-insensitive
-                    searchTerm = searchTerm.ToLower();
+                    string searchTermLowered = searchTerm.ToLower();
 
                     List<Dictionary<string, string>> searchResults;
 
                     // Fetch results
                     if (columnChoice.Equals("all"))
                     {
-                        searchResults = JobData.FindByValue(searchTerm);
+                        searchResults = JobData.FindByValue(searchTermLowered);
+                        PrintJobs(searchResults, searchTerm);
                     }
                     else
                     {
-                        searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
-                    }
-                    
-                    // handle if there are no results found
-                    if (searchResults.Count <= 1)
-                    {
-                        Console.WriteLine("\nThere are no results matching those terms.");
-                    }
-                    else
-                    {
-                        PrintJobs(searchResults);
-                    }
-                    
+                        searchResults = JobData.FindByColumnAndValue(columnChoice, searchTermLowered);
+                        PrintJobs(searchResults, searchTerm);
+                    }  
                 }
             }
         }
@@ -130,16 +121,24 @@ namespace TechJobsConsole
             return choiceKeys[choiceIdx];
         }
 
-        private static void PrintJobs(List<Dictionary<string, string>> someJobs)
+        private static void PrintJobs(List<Dictionary<string, string>> someJobs, string searchTerm = null)
         {
-            foreach (var item in someJobs)
+            if (someJobs.Count > 0)
             {
-                Console.WriteLine("\n*****");
-                foreach (KeyValuePair<string, string> each in item)
+                foreach (var item in someJobs)
                 {
-                    Console.WriteLine(each.Key + ": " + each.Value);
+                    Console.WriteLine("\n*****");
+                    foreach (KeyValuePair<string, string> each in item)
+                    {
+                        Console.WriteLine(each.Key + ": " + each.Value);
+                    }
+                    Console.WriteLine("*****");
                 }
-                Console.WriteLine("*****");
+            }
+            else
+            {
+                Console.WriteLine("\nThere are no results found for: \"{0}\"", searchTerm);
+
             }
         }
     }

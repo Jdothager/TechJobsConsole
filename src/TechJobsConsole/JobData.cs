@@ -76,7 +76,6 @@ namespace TechJobsConsole
                     }
                 }
             }
-
             return jobs;
         }
 
