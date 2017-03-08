@@ -58,18 +58,31 @@ namespace TechJobsConsole
                     Console.WriteLine("\nSearch term: ");
                     string searchTerm = Console.ReadLine();
 
+                    // make value case-insensitive
+                    searchTerm = searchTerm.ToLower();
+
                     List<Dictionary<string, string>> searchResults;
 
                     // Fetch results
                     if (columnChoice.Equals("all"))
                     {
-                        Console.WriteLine("Search all fields not yet implemented.");
+                        searchResults = JobData.FindByValue(searchTerm);
                     }
                     else
                     {
                         searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
+                    }
+                    
+                    // handle if there are no results found
+                    if (searchResults.Count <= 1)
+                    {
+                        Console.WriteLine("\nThere are no results matching those terms.");
+                    }
+                    else
+                    {
                         PrintJobs(searchResults);
                     }
+                    
                 }
             }
         }
@@ -102,6 +115,7 @@ namespace TechJobsConsole
                 string input = Console.ReadLine();
                 choiceIdx = int.Parse(input);
 
+                // TODO: this needs to check to ensure only int input and not null
                 if (choiceIdx < 0 || choiceIdx >= choiceKeys.Length)
                 {
                     Console.WriteLine("Invalid choices. Try again.");
@@ -120,12 +134,12 @@ namespace TechJobsConsole
         {
             foreach (var item in someJobs)
             {
-                Console.WriteLine("\n********");
+                Console.WriteLine("\n*****");
                 foreach (KeyValuePair<string, string> each in item)
                 {
                     Console.WriteLine(each.Key + ": " + each.Value);
                 }
-                Console.WriteLine("********");
+                Console.WriteLine("*****");
             }
         }
     }
