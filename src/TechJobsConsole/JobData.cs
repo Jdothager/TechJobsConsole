@@ -12,9 +12,15 @@ namespace TechJobsConsole
 
         public static List<Dictionary<string, string>> FindAll()
         {
+            //LoadData();
+            //AllJobs.AsReadOnly();
+            //return AllJobs;
+
             LoadData();
-            AllJobs.AsReadOnly();
-            return AllJobs;
+            List<Dictionary<string, string>> allJobsCopy = AllJobs;
+            allJobsCopy.Sort(new JobComparer("name"));
+            return allJobsCopy;
+
         }
 
         /*
