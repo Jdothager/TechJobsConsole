@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -17,7 +18,7 @@ namespace TechJobsConsole
             //return AllJobs;
 
             LoadData();
-            List<Dictionary<string, string>> allJobsCopy = AllJobs;
+            List<Dictionary<string, string>> allJobsCopy = AllJobs.ToList();
             allJobsCopy.Sort(new JobComparer("name"));
             return allJobsCopy;
 
